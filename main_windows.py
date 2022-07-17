@@ -45,7 +45,7 @@ except Exception as e:
         'RANDOM_RANGE': 3600,
         'ACT_ID': 'e202102251931481',
         'DOMAIN_NAME': '.mihoyo.com',
-        'SCHEDULER_NAME': 'HoyolabCheckInBot'
+        'SCHEDULER_NAME': 'HoyolabHonkaiCheckInBot'
     }
     config_file = open(os.path.join(app_path, 'config.json'), 'w')
     config_file.write(json.dumps(config))
@@ -70,7 +70,7 @@ try:
         raise Exception("ERROR: Browser not defined!")
 except Exception as e:
     print("Login information not found! Please login first to hoyolab once in Chrome/Firefox/Opera/Edge/Chromium before using the bot.")
-    print("You only need to login once for a year to https://www.hoyolab.com/genshin/ for this bot to work.")
+    print("You only need to login once for a year to https://act.hoyolab.com/bbs/event/signin-bh3/index.html/ for this bot to work.")
     log.write("Login information not found! Please login first to hoyolab once in Chrome/Firefox/Opera/Edge/Chromium before using the bot.\n")
     log.write('LOGIN ERROR: cookies not found\n')
     log.close()
@@ -84,7 +84,7 @@ for cookie in cookies:
         break
 if not found:
     print("Login information not found! Please login first to hoyolab once in Chrome/Firefox/Opera/Edge/Chromium before using the bot.")
-    print("You only need to login once for a year to https://www.hoyolab.com/genshin/ for this bot to work.")
+    print("You only need to login once for a year to https://act.hoyolab.com/bbs/event/signin-bh3/index.html/ for this bot to work.")
     log.write("Login information not found! Please login first to hoyolab once in Chrome/Firefox/Opera/Edge/Chromium before using the bot.\n")
     log.write('LOGIN ERROR: cookies not found\n')
     log.close()
@@ -92,7 +92,7 @@ if not found:
     sys.exit(1)
 
 # ARGPARSE
-help_text = 'Genshin Hoyolab Daily Check-In Bot\nWritten by darkGrimoire'
+help_text = 'Honkai Hoyolab Daily Check-In Bot\nWritten by farsdewibs0n (based on darkGrimoire\'s Genshin Hoyolab Daily)'
 parser = argparse.ArgumentParser(description=help_text)
 parser.add_argument("-v", "--version",
                     help="show program version", action="store_true")
@@ -113,9 +113,9 @@ def getDailyStatus():
     headers = {
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.5',
-        'Origin': 'https://webstatic-sea.mihoyo.com',
+        'Origin': 'https://www.hoyolab.com/',
         'Connection': 'keep-alive',
-        'Referer': f'https://webstatic-sea.mihoyo.com/ys/event/signin-sea/index.html?act_id={config["ACT_ID"]}&lang=en-us',
+        'Referer': f'https://act.hoyolab.com/bbs/event/signin-bh3/index.html?act_id={config["ACT_ID"]}&lang=en-us',
         'Cache-Control': 'max-age=0',
     }
 
@@ -155,9 +155,9 @@ def claimReward():
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.5',
         'Content-Type': 'application/json;charset=utf-8',
-        'Origin': 'https://webstatic-sea.mihoyo.com',
+        'Origin': 'https://www.hoyolab.com/',
         'Connection': 'keep-alive',
-        'Referer': f'https://webstatic-sea.mihoyo.com/ys/event/signin- sea/index.html?act_id={config["ACT_ID"]}&lang=en-us',
+        'Referer': f'https://act.hoyolab.com/bbs/event/signin-bh3/index.html?act_id={config["ACT_ID"]}&lang=en-us',
     }
 
     params = (
@@ -201,7 +201,7 @@ def configScheduler():
         f'$Time = New-ScheduledTaskTrigger -Daily -At {target_hour}:{target_minute}:{target_seconds} \n',
         f'$Action = New-ScheduledTaskAction -Execute \'{exec_path}\' {"" if config["RANDOMIZE"] else "-Argument -R"} -WorkingDirectory "{app_path}" \n',
         f'$Setting = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -WakeToRun -RunOnlyIfNetworkAvailable -MultipleInstances Parallel -Priority 3 -RestartCount 30 -RestartInterval (New-TimeSpan -Minutes 1) \n',
-        f'Register-ScheduledTask -Force -TaskName "{config["SCHEDULER_NAME"]}" -Trigger $Time -Action $Action -Settings $Setting -Description "Genshin Hoyolab Daily Check-In Bot {VER}" -RunLevel Highest'
+        f'Register-ScheduledTask -Force -TaskName "{config["SCHEDULER_NAME"]}" -Trigger $Time -Action $Action -Settings $Setting -Description "Honkai Hoyolab Daily Check-In Bot {VER}" -RunLevel Highest'
     ), creationflags=0x08000000)
     if ret_code:
         print("PERMISSION ERROR: please run as administrator to enable task scheduling")
