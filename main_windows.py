@@ -115,7 +115,7 @@ def getDailyStatus():
         'Accept-Language': 'en-US,en;q=0.5',
         'Origin': 'https://www.hoyolab.com/',
         'Connection': 'keep-alive',
-        'Referer': f'https://act.hoyolab.com/bbs/event/signin-bh3/index.html?act_id={config["ACT_ID"]}&lang=en-us',
+        'Referer': f'https://act.hoyolab.com/bbs/event/signin-bh3/index.html?act_id={config["ACT_ID"]}&bbs_theme=dark&bbs_theme_device=1',
         'Cache-Control': 'max-age=0',
     }
 
@@ -157,9 +157,10 @@ def claimReward():
         'Content-Type': 'application/json;charset=utf-8',
         'Origin': 'https://www.hoyolab.com/',
         'Connection': 'keep-alive',
-        'Referer': f'https://act.hoyolab.com/bbs/event/signin-bh3/index.html?act_id={config["ACT_ID"]}&lang=en-us',
+        'Referer': f'https://act.hoyolab.com/bbs/event/signin-bh3/index.html?act_id={config["ACT_ID"]}&bbs_theme=dark&bbs_theme_device=1',
+        'Cache-Control': 'max-age=0',
     }
-
+    
     params = (
         ('lang', 'en-us'),
     )
